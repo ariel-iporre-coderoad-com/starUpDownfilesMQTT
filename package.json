@@ -1,0 +1,19 @@
+{
+  "name": "starUpDownfilesMQTT",
+  "version": "0.0.0",
+  "description": "tools to upload and download files via MQTT to the SF",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ariel-iporre-coderoad-com/starUpDownfilesMQTT.git"
+  },
+  "author": "starflex team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ariel-iporre-coderoad-com/starUpDownfilesMQTT/issues"
+  },
+  "homepage": "https://github.com/ariel-iporre-coderoad-com/starUpDownfilesMQTT"
+}
