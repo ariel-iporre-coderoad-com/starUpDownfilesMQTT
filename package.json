@@ -15,5 +15,6 @@
   "bugs": {
     "url": "https://github.com/ariel-iporre-coderoad-com/starUpDownfilesMQTT/issues"
   },
-  "homepage": "https://github.com/ariel-iporre-coderoad-com/starUpDownfilesMQTT"
+  "homepage": "https://github.com/ariel-iporre-coderoad-com/starUpDownfilesMQTT",
+  "dependencies" : {"mqtt" : "<1.1.2"}
 }
