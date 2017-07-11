@@ -16,5 +16,5 @@
     "url": "https://github.com/ariel-iporre-coderoad-com/starUpDownfilesMQTT/issues"
   },
   "homepage": "https://github.com/ariel-iporre-coderoad-com/starUpDownfilesMQTT",
-  "dependencies" : {"mqtt" : "<1.1.2"}
+  "dependencies" : {"mqtt" : "<1.1.2", "md5-file":"^1.1.10"}
 }
