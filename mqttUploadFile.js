@@ -4,7 +4,7 @@ var mqtt = require('mqtt');
 var path = require('path')
 
 // Constants
-var CHUNK_SIZE = 64*1024; 
+var CHUNK_SIZE = 64*1024;
 
 var params = {
 	broker: null,
@@ -40,27 +40,31 @@ function uploadChunk(stream, fileName){
 		cmd = "node/program";
 	}
 
-	console.log("sending chunk: " + (++chunkNumber) + " (uuid: "+params.uuid+")");
-
+	console.log("Reading new chunk...")
 	var chunk = stream.read(CHUNK_SIZE);
-	if(chunk != null) {
+
+    if(chunk != null) {
 
 		var buf = new Buffer(chunk);
-		var encoded = buf.toString('base64');
 
-		var chunk_message = {
-			uuid: params.uuid, 
-			method: "POST", 
-			cmd: cmd, 
+        var encoded = buf.toString('base64');
+
+        var chunkMessage = {
+			uuid: params.uuid,
+			method: "POST",
+			cmd: cmd,
 			body: {
 				chunk: encoded
 			}
 		}
-	
-		client.publish(params.reqTopic, JSON.stringify(chunk_message));
+		console.log("sending chunk: " + (++chunkNumber) + " (uuid: "+params.uuid+")");
+        var message = JSON.stringify(chunkMessage);
+
+		client.publish(params.reqTopic, message);
+        console.log("new message. On topic: " + params.reqTopic);
 
 		if(params.noStrictACK) {
-			setTimeout(uploadChunk,params.delay, stream, fileName);		
+			setTimeout(uploadChunk,params.delay, stream, fileName);
 		}
 	} else {
 		console.log("no chunks to send.");
@@ -73,7 +77,7 @@ function initiateFileUpload(stream){
 	var chunks = Math.ceil(stats["size"]/CHUNK_SIZE);
 	console.log(
 		"File name: " + fileName +
-		", stats: " + JSON.stringify(stats, null, '\n') +
+		", stats: " + JSON.stringify(stats, null, '\t') +
 		", chunks: " + chunks );
 
 	var cmd = "file";
@@ -82,9 +86,9 @@ function initiateFileUpload(stream){
 	}
 
 	var first_message = {
-		uuid:params.uuid, 
-		method:"POST", 
-		cmd:cmd, 
+		uuid:params.uuid,
+		method:"POST",
+		cmd:cmd,
 		body: {
 			file: fileName,
 			fileSize: stats["size"],
@@ -102,8 +106,8 @@ function initiateFileUpload(stream){
 
   	if(params.noStrictACK) {
   		stream.on('readable', function() {
-			setTimeout(uploadChunk,params.delay, stream, fileName);	  
-		});	
+			setTimeout(uploadChunk, params.delay, stream, fileName);
+		});
   	}
 }
 
@@ -168,7 +172,7 @@ client.on('message', function (topic, message) {
       console.log("----------_>>  New message:  " +  message)
   	if(data.status == 202 || data.status == 100) {
   		uploadChunk(stream, fileName);
-  	}	
+  	}
 	console.log(data.status);
   }
 });
